@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import worker from '../dist/server/index.js';
+import {createRequire} from 'node:module';
+import {searchSkills,normalizeSkill} from '../web/engine.js';
+import {readFile} from 'node:fs/promises';
+const catalog=JSON.parse(await readFile(new URL('../web/catalog.json',import.meta.url),'utf8')).map(normalizeSkill);
+for(const q of ['做视频','修网页','整理 Excel','帮我找一个能整理Excel的技能'])assert.ok(searchSkills(catalog,q).length>0,q);
+assert.equal(searchSkills(catalog,'浏览器测试不存在').length,0);
+assert.equal(searchSkills(catalog,'',{kind:'plugin'}).length,0);
+assert.ok(searchSkills(catalog,'',{windows:'supported'}).every(s=>s.name==='playwright-cli'));
+assert.ok(searchSkills(catalog,'',{apiKey:'required'}).some(s=>s.name==='transcribe'));
+const call=async(method,params={})=>(await (await worker.fetch(new Request('http://localhost/mcp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})}))).json());
+const discover=await call('server/discover');assert.ok(discover.result.capabilities.tools);
+const listing=await call('tools/list');assert.equal(listing.result.tools.length,2);assert.equal(listing.result.tools[0]._meta['openai/ui'].entrypoints[0].type,'global');
+const opened=await call('tools/call',{name:'open_skill_library',arguments:{}});assert.equal(opened.result.structuredContent.count,103);
+const searched=await call('tools/call',{name:'search_skills',arguments:{query:'浏览器'}});assert.ok(searched.result.structuredContent.skills.some(s=>s.name.includes('playwright')));
+assert.equal((await call('tools/call',{name:'search_skills',arguments:{query:'x',limit:999}})).result.isError,true);
+assert.equal((await call('resources/read',{uri:'ui://wrong'})).error.code,-32602);
+const resource=(await call('resources/read',{uri:listing.result.tools[0]._meta.ui.resourceUri})).result.contents[0];
+assert.ok(resource.text.includes('atlas-init'));assert.equal(resource._meta['openai/ui'].preferredDisplayMode,'fullscreen');
+assert.equal((await worker.fetch(new Request('http://localhost/'))).status,200);
+assert.equal((await worker.fetch(new Request('http://localhost/icon.svg'))).status,200);
+const require=createRequire(import.meta.url);
+const {chromium}=require('playwright');
+const browser=await chromium.launch({...(process.env.PLAYWRIGHT_EXECUTABLE_PATH ? {executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH} : {}),headless:true});
+try{
+ const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('https://api.github.com/**',r=>r.abort());await page.route('https://raw.githubusercontent.com/**',r=>r.abort());
+ await page.setContent(resource.text);await page.waitForTimeout(500);
+ const search=page.locator('input[type="search"]');assert.equal(await search.count(),1);await search.fill('playwright');await page.waitForTimeout(200);
+ assert.ok((await page.locator('body').innerText()).includes('playwright-cli'));
+ await page.locator('#kind-filter').selectOption('plugin');assert.ok(await page.locator('#empty').isVisible());
+ await page.locator('#reset').click();assert.equal(await page.locator('#kind-filter').inputValue(),'all');
+ await page.locator('#windows-filter').selectOption('supported');assert.equal(await page.locator('.skill-card').count(),1);
+ await page.locator('[data-detail]').first().click();assert.ok((await page.locator('#detail-content').innerText()).includes('Node.js 18+'));assert.ok((await page.locator('#detail-content').innerText()).includes('不会自动成为插件'));
+ await page.locator('#detail-dialog .close-modal').click();
+ await page.locator('#updates-button').click();assert.ok((await page.locator('#updates-content').innerText()).includes('目前尚无定时任务完成记录'));
+ assert.ok((await page.locator('#updates-content').innerText()).includes('更新 103'));await page.locator('#update-week').selectOption({index:1});assert.ok(await page.locator('.release').count()>=1);
+ await page.locator('#updates-dialog .close-modal').click();
+ for(const width of [375,768,1440]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));}
+ assert.deepEqual(errors,[]);console.log('PASS: MCP discovery, entrypoints, search, validation, resources, website, embedded view search, three responsive widths.');
+}finally{await browser.close();}

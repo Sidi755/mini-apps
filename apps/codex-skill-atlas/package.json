@@ -1,0 +1,21 @@
+{
+  "name": "skill-atlas",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Searchable Codex Skills from public GitHub repositories",
+  "scripts": {
+    "check": "node --check web/app.js && node --check web/engine.js",
+    "start": "node server.mjs",
+    "build": "node scripts/build-worker.mjs",
+    "check:plugin": "node scripts/check-plugin.mjs",
+    "check:library": "node scripts/check-eight.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
+

@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "schedule": {
+    "label": "本副本未配置定时维护",
+    "note": "线上原站的定时任务不会随源码复制；请自行配置。"
+  },
+  "releases": [
+    {
+      "date": "2026-11-08T15:03:11.567468+00:00",
+      "version": "1.3.0",
+      "title": "安装更清楚，收藏可备份，选择有对比",
+      "origin": "本次手动改进",
+      "added": [],
+      "updated": [],
+      "removed": [],
+      "improvements": [
+        "增加安装及验证步骤，可复制完整安装提示或单独验证提示",
+        "逐项检查 GitHub 仓库与原文链接，区分 404、限流和网络失败，展示许可证与归档情况",
+        "收藏支持新建、重命名和移除分组，JSON 备份先预览后合并",
+        "最多选择 3 项横向对比，并按用途和标签推荐相似项目"
+      ],
+      "notes": "本次为软件功能升级，未增加或下架目录条目。来源检查需要联网；收藏与检查记录保存在当前浏览器。"
+    },
+    {
+      "date": "2026-11-08T12:43:02.302Z",
+      "version": "1.2.0",
+      "title": "更容易找到、理解并使用技能",
+      "origin": "本次手动改进",
+      "added": [],
+      "updated": [
+        {
+          "id": "openai/skills:skills/.curated/gh-fix-ci/SKILL.md",
+          "title": "GitHub CI 故障修复"
+        },
+        {
+          "id": "openai/skills:skills/.curated/gh-address-comments/SKILL.md",
+          "title": "处理 PR 评审意见"
+        },
+        {
+          "id": "openai/skills:skills/.curated/playwright/SKILL.md",
+          "title": "浏览器自动化"
+        },
+        {
+          "id": "openai/skills:skills/.curated/screenshot/SKILL.md",
+          "title": "桌面截图"
+        },
+        {
+          "id": "openai/skills:skills/.curated/pdf/SKILL.md",
+          "title": "PDF 阅读与制作"
+        },
+        {
+          "id": "openai/skills:skills/.curated/jupyter-notebook/SKILL.md",
+          "title": "Jupyter 实验笔记本"
+        },
+        {
+          "id": "openai/skills:skills/.system/openai-docs/SKILL.md",
+          "title": "OpenAI 官方文档助手"
+        },
+        {
+          "id": "openai/skills:skills/.curated/security-best-practices/SKILL.md",
+          "title": "安全编码检查"
+        },
+        {
+          "id": "openai/skills:skills/.curated/security-threat-model/SKILL.md",
+          "title": "代码库威胁建模"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-implement-design/SKILL.md",
+          "title": "Figma 设计转代码"
+        },
+        {
+          "id": "openai/skills:skills/.curated/cloudflare-deploy/SKILL.md",
+          "title": "部署到 Cloudflare"
+        },
+        {
+          "id": "openai/skills:skills/.curated/vercel-deploy/SKILL.md",
+          "title": "部署到 Vercel"
+        },
+        {
+          "id": "openai/skills:skills/.curated/sentry/SKILL.md",
+          "title": "Sentry 线上错误排查"
+        },
+        {
+          "id": "openai/skills:skills/.curated/transcribe/SKILL.md",
+          "title": "音频转写与说话人标注"
+        },
+        {
+          "id": "openai/skills:skills/.curated/notion-research-documentation/SKILL.md",
+          "title": "Notion 资料研究"
+        },
+        {
+          "id": "openai/skills:skills/.curated/linear/SKILL.md",
+          "title": "Linear 项目管理"
+        },
+        {
+          "id": "obra/superpowers:skills/systematic-debugging/SKILL.md",
+          "title": "系统化调试"
+        },
+        {
+          "id": "obra/superpowers:skills/test-driven-development/SKILL.md",
+          "title": "测试驱动开发"
+        },
+        {
+          "id": "obra/superpowers:skills/writing-plans/SKILL.md",
+          "title": "拆解实施计划"
+        },
+        {
+          "id": "obra/superpowers:skills/using-git-worktrees/SKILL.md",
+          "title": "Git Worktree 隔离开发"
+        },
+        {
+          "id": "obra/superpowers:skills/requesting-code-review/SKILL.md",
+          "title": "发起代码审查"
+        },
+        {
+          "id": "obra/superpowers:skills/verification-before-completion/SKILL.md",
+          "title": "完成前验证"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/react-best-practices/SKILL.md",
+          "title": "React 性能最佳实践"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/web-design-guidelines/SKILL.md",
+          "title": "网页设计与可访问性检查"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/composition-patterns/SKILL.md",
+          "title": "React 组件组合模式"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/react-native-skills/SKILL.md",
+          "title": "React Native 移动端优化"
+        },
+        {
+          "id": "anthropics/skills:skills/frontend-design/SKILL.md",
+          "title": "有辨识度的前端设计"
+        },
+        {
+          "id": "anthropics/skills:skills/doc-coauthoring/SKILL.md",
+          "title": "协作撰写技术文档"
+        },
+        {
+          "id": "anthropics/skills:skills/mcp-builder/SKILL.md",
+          "title": "构建 MCP 服务"
+        },
+        {
+          "id": "anthropics/skills:skills/webapp-testing/SKILL.md",
+          "title": "本地 Web 应用测试"
+        },
+        {
+          "id": "anthropics/skills:skills/pptx/SKILL.md",
+          "title": "PPT 演示文稿制作与编辑"
+        },
+        {
+          "id": "openai/skills:skills/.curated/aspnet-core/SKILL.md",
+          "title": "ASP.NET Core 应用开发"
+        },
+        {
+          "id": "openai/skills:skills/.curated/chatgpt-apps/SKILL.md",
+          "title": "ChatGPT 应用开发"
+        },
+        {
+          "id": "openai/skills:skills/.curated/cli-creator/SKILL.md",
+          "title": "命令行工具生成"
+        },
+        {
+          "id": "openai/skills:skills/.curated/define-goal/SKILL.md",
+          "title": "明确目标与验收条件"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma/SKILL.md",
+          "title": "Figma 设计上下文"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-code-connect-components/SKILL.md",
+          "title": "设计组件映射"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-create-design-system-rules/SKILL.md",
+          "title": "设计系统规则生成"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-create-new-file/SKILL.md",
+          "title": "创建 Figma 文件"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-generate-design/SKILL.md",
+          "title": "页面转 Figma 设计"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-generate-library/SKILL.md",
+          "title": "设计组件库构建"
+        },
+        {
+          "id": "openai/skills:skills/.curated/figma-use/SKILL.md",
+          "title": "Figma 画布操作"
+        },
+        {
+          "id": "openai/skills:skills/.curated/hatch-pet/SKILL.md",
+          "title": "制作动画桌面宠物"
+        },
+        {
+          "id": "openai/skills:skills/.system/imagegen/SKILL.md",
+          "title": "图片生成与编辑"
+        },
+        {
+          "id": "openai/skills:skills/.curated/migrate-to-codex/SKILL.md",
+          "title": "迁移到 Codex"
+        },
+        {
+          "id": "openai/skills:skills/.curated/netlify-deploy/SKILL.md",
+          "title": "部署到 Netlify"
+        },
+        {
+          "id": "openai/skills:skills/.curated/notion-knowledge-capture/SKILL.md",
+          "title": "Notion 知识沉淀"
+        },
+        {
+          "id": "openai/skills:skills/.curated/notion-meeting-intelligence/SKILL.md",
+          "title": "Notion 会议准备"
+        },
+        {
+          "id": "openai/skills:skills/.curated/notion-spec-to-implementation/SKILL.md",
+          "title": "需求转实施任务"
+        },
+        {
+          "id": "openai/skills:skills/.curated/playwright-interactive/SKILL.md",
+          "title": "交互式浏览器调试"
+        },
+        {
+          "id": "openai/skills:skills/.system/plugin-creator/SKILL.md",
+          "title": "Codex 插件脚手架"
+        },
+        {
+          "id": "openai/skills:skills/.curated/render-deploy/SKILL.md",
+          "title": "部署到 Render"
+        },
+        {
+          "id": "openai/skills:skills/.curated/security-ownership-map/SKILL.md",
+          "title": "安全责任与维护风险"
+        },
+        {
+          "id": "openai/skills:skills/.system/skill-creator/SKILL.md",
+          "title": "技能创建与优化"
+        },
+        {
+          "id": "openai/skills:skills/.system/skill-installer/SKILL.md",
+          "title": "技能安装助手"
+        },
+        {
+          "id": "openai/skills:skills/.curated/speech/SKILL.md",
+          "title": "文字转语音"
+        },
+        {
+          "id": "openai/skills:skills/.curated/winui-app/SKILL.md",
+          "title": "Windows 桌面应用开发"
+        },
+        {
+          "id": "openai/skills:skills/.curated/yeet/SKILL.md",
+          "title": "提交代码并创建 PR"
+        },
+        {
+          "id": "obra/superpowers:skills/brainstorming/SKILL.md",
+          "title": "需求探索与方案讨论"
+        },
+        {
+          "id": "obra/superpowers:skills/diagnosing-superpowers/SKILL.md",
+          "title": "工作流诊断"
+        },
+        {
+          "id": "obra/superpowers:skills/dispatching-parallel-agents/SKILL.md",
+          "title": "并行任务分配"
+        },
+        {
+          "id": "obra/superpowers:skills/executing-plans/SKILL.md",
+          "title": "按计划执行"
+        },
+        {
+          "id": "obra/superpowers:skills/finishing-a-development-branch/SKILL.md",
+          "title": "开发分支收尾"
+        },
+        {
+          "id": "obra/superpowers:skills/receiving-code-review/SKILL.md",
+          "title": "处理代码审查反馈"
+        },
+        {
+          "id": "obra/superpowers:skills/subagent-driven-development/SKILL.md",
+          "title": "子代理协作开发"
+        },
+        {
+          "id": "obra/superpowers:skills/using-superpowers/SKILL.md",
+          "title": "Superpowers 使用流程"
+        },
+        {
+          "id": "obra/superpowers:skills/writing-skills/SKILL.md",
+          "title": "编写与验证技能"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/deploy-to-vercel/SKILL.md",
+          "title": "Vercel 网站发布"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/vercel-cli-with-tokens/SKILL.md",
+          "title": "Vercel 令牌部署"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/vercel-optimize/SKILL.md",
+          "title": "Vercel 成本与性能优化"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/react-view-transitions/SKILL.md",
+          "title": "React 页面过渡动画"
+        },
+        {
+          "id": "vercel-labs/agent-skills:skills/writing-guidelines/SKILL.md",
+          "title": "文档写作风格检查"
+        },
+        {
+          "id": "anthropics/skills:skills/academy-guide/SKILL.md",
+          "title": "Claude 学习资源导航"
+        },
+        {
+          "id": "anthropics/skills:skills/algorithmic-art/SKILL.md",
+          "title": "生成式艺术创作"
+        },
+        {
+          "id": "anthropics/skills:skills/brand-guidelines/SKILL.md",
+          "title": "品牌视觉规范应用"
+        },
+        {
+          "id": "anthropics/skills:skills/canvas-design/SKILL.md",
+          "title": "海报与静态视觉设计"
+        },
+        {
+          "id": "anthropics/skills:skills/claude-api/SKILL.md",
+          "title": "Claude 接口开发参考"
+        },
+        {
+          "id": "anthropics/skills:skills/discernment-nudge/SKILL.md",
+          "title": "结论复核与追问"
+        },
+        {
+          "id": "anthropics/skills:skills/docx/SKILL.md",
+          "title": "Word 文档处理"
+        },
+        {
+          "id": "anthropics/skills:skills/internal-comms/SKILL.md",
+          "title": "内部沟通文稿"
+        },
+        {
+          "id": "anthropics/skills:skills/pdf/SKILL.md",
+          "title": "PDF 综合处理"
+        },
+        {
+          "id": "anthropics/skills:skills/skill-creator/SKILL.md",
+          "title": "技能创建与优化"
+        },
+        {
+          "id": "anthropics/skills:skills/slack-gif-creator/SKILL.md",
+          "title": "Slack 动图制作"
+        },
+        {
+          "id": "anthropics/skills:skills/theme-factory/SKILL.md",
+          "title": "作品主题与配色"
+        },
+        {
+          "id": "anthropics/skills:skills/web-artifacts-builder/SKILL.md",
+          "title": "复杂交互网页构建"
+        },
+        {
+          "id": "anthropics/skills:skills/xlsx/SKILL.md",
+          "title": "电子表格处理"
+        },
+        {
+          "id": "microsoft/playwright-cli:skills/playwright-cli/SKILL.md",
+          "title": "微软浏览器自动化"
+        },
+        {
+          "id": "supabase/agent-skills:skills/supabase/SKILL.md",
+          "title": "Supabase 应用与数据库"
+        },
+        {
+          "id": "supabase/agent-skills:skills/supabase-postgres-best-practices/SKILL.md",
+          "title": "PostgreSQL 设计与性能"
+        },
+        {
+          "id": "vercel-labs/skills:skills/find-skills/SKILL.md",
+          "title": "发现与安装技能"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-best-practices/SKILL.md",
+          "title": "Remotion 视频工作流"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-captions/SKILL.md",
+          "title": "视频字幕与动画"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-create/SKILL.md",
+          "title": "创建代码视频"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-docs/SKILL.md",
+          "title": "Remotion 文档检索"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-interactivity/SKILL.md",
+          "title": "视频交互结构"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-license/SKILL.md",
+          "title": "Remotion 许可查询"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-maps/SKILL.md",
+          "title": "地图动画制作"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-markup/SKILL.md",
+          "title": "视频内容与特效"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-multimedia/SKILL.md",
+          "title": "音视频媒体处理"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-render/SKILL.md",
+          "title": "导出 Remotion 视频"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-saas/SKILL.md",
+          "title": "视频生成应用"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-studio/SKILL.md",
+          "title": "预览视频项目"
+        },
+        {
+          "id": "remotion-dev/skills:skills/remotion-upgrade/SKILL.md",
+          "title": "升级视频开发依赖"
+        }
+      ],
+      "removed": [],
+      "improvements": [
+        "103 项现有条目明确标注为 Skill，新增类型说明与筛选",
+        "支持做视频、修网页、整理 Excel 等需求表达和匹配提示",
+        "新增 Windows、API Key、费用及依赖说明，未核实内容明确标记",
+        "新增按周查看的持久更新记录，区分计划任务与已完成发布"
+      ],
+      "notes": "本次没有新增或下架项目；103 项更新主要为类型与适用条件标注，并不表示上游代码全部更新。"
+    }
+  ]
+}

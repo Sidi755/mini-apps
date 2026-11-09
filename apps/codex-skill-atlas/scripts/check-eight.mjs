@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict';
+import {readFile,mkdir} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import {normalizeSkill} from '../web/engine.js';
+import {inspectSource,validateBackup,installGuide,relatedSkills} from '../web/library-tools.js';
+const catalog=JSON.parse(await readFile(new URL('../web/catalog.json',import.meta.url),'utf8')).map(normalizeSkill),s=catalog[0];
+assert.match(installGuide(s),/未完成的步骤不能称为安装成功/);
+assert.ok(relatedSkills(s,catalog).every(x=>x.id!==s.id));
+const backup={format:'skill-atlas-favorites',version:1,skills:[s],groups:['办公'],assignments:[[s.id,'办公']]};
+assert.equal(validateBackup(backup,normalizeSkill).skills.length,1);
+assert.throws(()=>validateBackup({...backup,assignments:[[s.id,'缺失']]},normalizeSkill));
+assert.throws(()=>validateBackup({...backup,skills:[{...s,path:'../SKILL.md'}]},normalizeSkill));
+for(const [status,expected] of [[404,'missing'],[403,'unknown'],[429,'unknown'],[500,'unknown']])assert.equal((await inspectSource(s,async()=>new Response('{}',{status}))).status,expected);
+assert.equal((await inspectSource(s,async()=>{throw Error('offline')})).status,'unknown');
+let n=0;const ok=await inspectSource(s,async()=>Response.json(n++?{type:'file'}:{archived:true,license:{spdx_id:'MIT'},pushed_at:'2024-01-01T00:00:00Z'}));assert.equal(ok.status,'ok');assert.equal(ok.info.archived,true);
+const require=createRequire(import.meta.url),{chromium}=require('playwright');
+const browser=await chromium.launch({...(process.env.PLAYWRIGHT_EXECUTABLE_PATH ? {executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH} : {}),headless:true});
+try{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await context.route('http://atlas.test/**',async route=>{const name=new URL(route.request().url()).pathname.slice(1)||'index.html';try{const body=await readFile(new URL('../web/'+name,import.meta.url));await route.fulfill({body,contentType:name.endsWith('.js')?'text/javascript':name.endsWith('.json')?'application/json':name.endsWith('.css')?'text/css':'text/html'})}catch{await route.fulfill({status:404,body:''})}});
+ await context.route('https://fonts.googleapis.com/**',r=>r.abort());
+ await context.route('https://api.github.com/**',r=>r.fulfill({status:403,body:'{}',contentType:'application/json'}));
+ await page.addInitScript(()=>localStorage.setItem('skill-atlas:autoRefresh','false'));
+ await page.goto('http://atlas.test');await page.locator('.skill-card').first().waitFor();
+ await page.locator('[data-detail]').first().click();await page.locator('#show-install-plan').click();assert.match(await page.locator('#install-plan').inputValue(),/实际运行/);
+ await page.locator('#check-source').click();await page.getByText('GitHub 限流或拒绝访问，无法判断是否失效。',{exact:true}).waitFor();
+ await page.locator('#assign-group').selectOption({label:'办公'});await page.locator('#detail-dialog .close-modal').click();await page.locator('[data-view="favorites"]').click();assert.equal(await page.locator('.skill-card').count(),1);
+ await page.locator('#manage-groups').click();await page.locator('#new-group-name').fill('我的测试');await page.locator('#new-group-form button').click();assert.ok((await page.locator('#group-list').innerText()).includes('保存名称'));await page.locator('#groups-dialog .close-modal').click();
+ const downloadPromise=page.waitForEvent('download');await page.locator('#backup-favorites').click();const download=await downloadPromise;const data=JSON.parse(await readFile(await download.path(),'utf8'));assert.equal(data.skills.length,1);assert.ok(data.groups.includes('我的测试'));assert.equal(data.assignments[0][1],'办公');
+ await page.locator('.favorite').click();assert.equal(await page.locator('.skill-card').count(),0);
+ await page.locator('#backup-file').setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});await page.locator('#import-dialog').waitFor({state:'visible'});assert.equal(await page.locator('.skill-card').count(),0);await page.locator('#confirm-import').click();assert.equal(await page.locator('.skill-card').count(),1);
+ await page.locator('#backup-file').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{bad')});assert.equal(await page.locator('.skill-card').count(),1);
+ await page.reload();await page.locator('[data-view="favorites"]').click();await page.locator('#group-filter').selectOption({label:'办公'});assert.equal(await page.locator('.skill-card').count(),1);
+ await page.locator('[data-view="all"]').click();for(let i=0;i<3;i++)await page.locator('[data-compare]').nth(i).click();await page.locator('[data-compare]').nth(3).click();assert.match(await page.locator('#compare-open').innerText(),/3\/3/);
+ await page.locator('#compare-open').click();assert.equal(await page.locator('.comparison-table thead th').count(),4);
+ await mkdir(new URL('../test-results/',import.meta.url),{recursive:true});await page.screenshot({path:fileURLToPath(new URL('../test-results/技能库-项目对比.png',import.meta.url))});
+ for(const width of [375,768]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));}
+ assert.deepEqual(errors,[]);console.log('PASS: installation guidance; 404 vs throttling/offline; backup validation, preview, merge, persistence; groups; three-item comparison; responsive layout.');
+}finally{await browser.close()}
